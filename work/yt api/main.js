@@ -27,9 +27,11 @@ function onPlayerReady(event){
     });
 }
 function onPlayerStateChange(event){
-    console.log(player.getPlayerState());
-    if(Math.floor(player.getCurrentTime())==playTime[currentPlay][1]
-    || player.getPlayerState()==0){
+    console.log(currentPlay);
+    if((Boolean(playTime[currentPlay][1])!=false && Math.floor(player.getCurrentTime())>=playTime[currentPlay][1])
+    || (player.getPlayerState()==0 && Math.floor(player.getCurrentTime())!=0)){
+        
+        console.log("change");
         if(currentPlay<playList.length-1){
             currentPlay++;
             player.loadVideoById({
@@ -41,12 +43,21 @@ function onPlayerStateChange(event){
         }
         else{
             currentPlay=0;
-            player.cueVideoById({
-                videoId:playList[currentPlay],
-                startSeconds:playTime[currentPlay][0],
-                endSeconds:playTime[currentPlay][1],
-                suggestedQuality:"large"
-            });
+            if(loop==false)
+                player.cueVideoById({
+                    videoId:playList[currentPlay],
+                    startSeconds:playTime[currentPlay][0],
+                    endSeconds:playTime[currentPlay][1],
+                    suggestedQuality:"large"
+                });
+            else{
+                player.loadVideoById({
+                    videoId:playList[currentPlay],
+                    startSeconds:playTime[currentPlay][0],
+                    endSeconds:playTime[currentPlay][1],
+                    suggestedQuality:"large"
+                });
+            }
         }
     }
     if(event.data==1){
