@@ -62,5 +62,6 @@ function onPlayerStateChange(event){
     }
     if(event.data==1){
         $("h2").text(player.getVideoData().title);
+        
     }
 }
