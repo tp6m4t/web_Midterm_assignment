@@ -1,101 +1,130 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title></title>
-        <link rel="stylesheet"href="style.css">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://www.youtube.com/iframe_api"></script>
-        <script src="playList.js"></script>
-        <script src="loop_play.js"></script>
-        <script src="main.js"></script>
-        <style>
-            .switch_demo {
-                position: relative;
-                width: 150px;
-                user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-            }
-            .switch_demo-checkbox {
-                display: none;
-            }
-            .switch_demo-label {
-                display: block;
-                overflow: hidden;
-                cursor: pointer;
-                border: 2px solid #999999;
-                border-radius: 20px;
-            }
-            .switch_demo-inner {
-                display: block;
-                width: 200%;
-                margin-left: -100%;
-                transition: margin 0.3s ease-in 0s;
-            }
-            .switch_demo-inner:before,
-            .switch_demo-inner:after {
-                display: block;
-                float: left;
-                width: 50%;
-                height: 30px;
-                padding: 0;
-                line-height: 30px;
-                font-size: 14px;
-                color: white;
-                font-family: Trebuchet, Arial, sans-serif;
-                font-weight: bold;
-                box-sizing: border-box;
-            }
-            .switch_demo-inner:before {
-                content: "開啟循環播放";
-                padding-left: 10px;
-                background-color: #34A7C1;
-                color: #FFFFFF;
-            }
-            .switch_demo-inner:after {
-                content: "關閉循環播放";
-                padding-right: 10px;
-                background-color: #EEEEEE;
-                color: #999999;
-                text-align: right;
-            }
-            .switch_demo-switch {
-                display: block;
-                width: 18px;
-                margin: 6px;
-                background: #FFFFFF;
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                right: 116px;
-                border: 2px solid #999999;
-                border-radius: 20px;
-                transition: all 0.3s ease-in 0s;
-            }
-            .switch_demo-checkbox:checked + .switch_demo-label .switch_demo-inner {
-                margin-left: 0;
-            }
-            .switch_demo-checkbox:checked + .switch_demo-label .switch_demo-switch {
-                right: 0px;
-            }
-            </style>
-    </head>
-    <body>
-        <p>點歌器</p>
-        <h2 id="title"></h2>
-        <div id="player"></div>
-        <br>
-        <input id="playbutton" type="button" value="play">
-        <button onclick="location.href='../../#work'">返回首頁</button>
-        <div class="center">
-            <div class="switch_demo">
-            <input onclick="loop_w()" type="checkbox" name="switch_demo" class="switch_demo-checkbox" id="switch_demo" checked>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="playList.js"></script>
+    
+    <script src="main.js"></script>
+    <style>
+        .switch_demo {
+            position: relative;
+            width: 150px;
+            user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .switch_demo-checkbox {
+            display: none;
+        }
+
+        .switch_demo-label {
+            display: block;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid #999999;
+            border-radius: 20px;
+        }
+
+        .switch_demo-inner {
+            display: block;
+            width: 200%;
+            margin-left: -100%;
+            transition: margin 0.3s ease-in 0s;
+        }
+
+        .switch_demo-inner:before,
+        .switch_demo-inner:after {
+            display: block;
+            float: left;
+            width: 50%;
+            height: 30px;
+            padding: 0;
+            line-height: 30px;
+            font-size: 14px;
+            color: white;
+            font-family: Trebuchet, Arial, sans-serif;
+            font-weight: bold;
+            box-sizing: border-box;
+        }
+
+        .switch_demo-inner:before {
+            content: "開啟循環播放";
+            padding-left: 10px;
+            background-color: #34A7C1;
+            color: #FFFFFF;
+        }
+
+        .switch_demo-inner:after {
+            content: "關閉循環播放";
+            padding-right: 10px;
+            background-color: #EEEEEE;
+            color: #999999;
+            text-align: right;
+        }
+
+        .switch_demo-switch {
+            display: block;
+            width: 18px;
+            margin: 6px;
+            background: #FFFFFF;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 116px;
+            border: 2px solid #999999;
+            border-radius: 20px;
+            transition: all 0.3s ease-in 0s;
+        }
+
+        .switch_demo-checkbox:checked+.switch_demo-label .switch_demo-inner {
+            margin-left: 0;
+        }
+
+        .switch_demo-checkbox:checked+.switch_demo-label .switch_demo-switch {
+            right: 0px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <p>點歌器</p>
+    <h2 id="title"></h2>
+    <div id="player"></div>
+    <br>
+
+    <input id="playbutton" type="button" value="play">
+    <button onclick="location.href='../../#work'">返回首頁</button>
+    <div class="center">
+        <div class="switch_demo">
+            <input onclick="loop_w()" type="checkbox" name="switch_demo" class="switch_demo-checkbox" id="switch_demo"
+                checked>
             <label class="switch_demo-label" for="switch_demo">
-            <span class="switch_demo-inner"></span>
-            <span class="switch_demo-switch"></span>
+                <span class="switch_demo-inner"></span>
+                <span class="switch_demo-switch"></span>
             </label>
-            </div>
         </div>
-    </body>
+    </div>
+    <div id="app">
+        <table>
+            <tr><td>影片</td><td>開始</td><td>結束</td><td>刪除</td></tr>(1.結束時間為0or超出撥放時間表示撥放直到結束    2.刪除播放的飲片如已準備或撥放將會繼續播完)
+            <tr v-for="(value,index) in state.playList">
+                <td>{{value}}</td>
+                <td><input type="text" :value="state.playTime[index][0]"  @input="state.playTime[index][0] = $event.target.value"></td>
+                <td><input type="text" :value="state.playTime[index][1]"  @input="state.playTime[index][1] = $event.target.value"></td>
+                <td><button @click="deletevido(index)" value="刪除播放"></button></td>
+            </tr>
+        </table>
+        新增<input type="text" @change="newvido" >(watch?v= 後的內容)
+    </div>
+    <script src="to_vue.js"></script>
+</body>
+
 </html>
